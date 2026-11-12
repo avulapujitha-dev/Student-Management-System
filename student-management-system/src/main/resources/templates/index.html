@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management System</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f7fb;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            color: #203864;
+            text-align: center;
+        }
+
+        input {
+            padding: 12px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 12px;
+            background: #2457a7;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        li {
+            margin: 15px;
+        }
+
+        .message {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Student Management System</h1>
+
+    <p>Manage Student Records Easily</p>
+
+    <h2>Add Student</h2>
+
+    <form action="/add" method="post">
+        <input type="text" name="name"
+               placeholder="Enter Student Name" required>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <h2>Search Student</h2>
+
+    <form action="/search" method="post">
+        <input type="text" name="name"
+               placeholder="Enter name to search" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <p class="message" th:if="${message}"
+       th:text="${message}"></p>
+
+    <h2>Student List</h2>
+
+    <p th:if="${#lists.isEmpty(students)}">
+        No students added yet.
+    </p>
+
+    <ul>
+        <li th:each="student, stat : ${students}">
+
+            <span th:text="${student}"></span>
+
+            <form action="/update" method="post">
+                <input type="hidden" name="index"
+                       th:value="${stat.index}">
+
+                <input type="text" name="newName"
+                       th:value="${student}" required>
+
+                <button type="submit">Update</button>
+            </form>
+
+            <form action="/delete" method="post">
+                <input type="hidden" name="index"
+                       th:value="${stat.index}">
+
+                <button type="submit">Delete</button>
+            </form>
+
+        </li>
+    </ul>
+
+</div>
+
+</body>
+</html>
